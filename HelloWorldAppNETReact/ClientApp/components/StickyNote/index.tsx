@@ -17,7 +17,6 @@ class StickyNote extends React.Component<BoardProps, {}> {
     constructor(props: any) {
         super(props)
         this.renderFontAwesomeIcon = this.renderFontAwesomeIcon.bind(this);
-        
     }
 
     componentDidMount() {
@@ -62,19 +61,18 @@ class StickyNote extends React.Component<BoardProps, {}> {
             <Draggable>
                 <div className="sticky-note">
                     <div className="col-sm-12">
-                        <div className="pull-right"> Priority: { note.priorityLevel } </div>
+                        <div className="pull-right"> Priority: {note.priorityLevel} </div>
                     </div>
-                    <div className="col-sm-12 sticky-note-title"> <strong>{ note.title }</strong> </div>
+                    <div className="col-sm-12 sticky-note-title"> <strong>{note.title}</strong> </div>
                     <div className="col-sm-12">
-                        { note.tasks && 
+                        {note.tasks &&
                             note.tasks.map((task: any) => (
-                                <div key={task.id} className="sticky-note-task">
+                                <div key={task.id} className="saved-task sticky-note-task">
                                     {this.renderFontAwesomeIcon(task)}
                                     <BulletTask task={task} />
                                 </div>
-                            )) 
+                            ))
                         }
-                        
                     </div>
                 </div>
             </Draggable>

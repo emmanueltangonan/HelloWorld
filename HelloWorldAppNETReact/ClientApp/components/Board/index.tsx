@@ -4,33 +4,51 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
 import * as BoardState from '../../store/Board';
 import StickyNote from '../StickyNote';
+import Draggable from 'react-draggable';
+import EditableNote from '../EditableNote';
 
 type BoardProps =
     BoardState.BoardState       
     & typeof BoardState.actionCreators      
     & RouteComponentProps<{}>; 
 
-class Board extends React.Component<BoardProps, {}> {
+class Board extends React.Component<BoardProps, any> {
 
     constructor(props: any) {
         super(props)
-        this.createNewNote = this.createNewNote.bind(this)
+        this.handleButton = this.handleButton.bind(this)
+        this.getDisplay = this.getDisplay.bind(this)
+
+        this.state = {
+            newNoteOpen: false,
+        }
     }
 
     componentDidMount() {
         this.props.getAllNotes();
     }
 
-    createNewNote() {
-        this.props.createNewNote();
+    handleButton() {
+        //this.props.createNewNote();
+        const { newNoteOpen } = this.state;
+        this.setState({
+            newNoteOpen: !newNoteOpen
+        })
+    }
+
+    getDisplay() {
+        const { newNoteOpen } = this.state;
+        return newNoteOpen ? {} : { display: 'none'};
     }
 
     public render() {
         const { notes } = this.props;
+        const { newNoteOpen } = this.state;
         console.log(notes)
         return (
             <div className="board">
-                <div className="add-btn" onClick={this.createNewNote} >New Note</div>
+                <div className="add-btn" onClick={this.handleButton} >{newNoteOpen ? 'Cancel' : 'New'}</div>
+                <EditableNote display={ this.getDisplay() } />
                 <div className="notes-container">
                     {notes && 
                         notes.map((note: any) => (

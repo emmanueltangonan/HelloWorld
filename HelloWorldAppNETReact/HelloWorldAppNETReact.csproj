@@ -24,6 +24,7 @@
   <ItemGroup>
     <None Remove="ClientApp\components\Board\index.tsx" />
     <None Remove="ClientApp\components\Board\test.ts" />
+    <None Remove="ClientApp\components\EditableNote\index.tsx" />
     <None Remove="ClientApp\components\StickyNote\index.tsx" />
     <None Remove="ClientApp\components\StickyNote\test.ts" />
     <None Remove="ClientApp\components\BulletTask\index.tsx" />
@@ -40,6 +41,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\Board\index.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Board\test.ts" />
+    <TypeScriptCompile Include="ClientApp\components\EditableNote\index.tsx" />
     <TypeScriptCompile Include="ClientApp\components\StickyNote\index.tsx" />
     <TypeScriptCompile Include="ClientApp\components\StickyNote\test.ts" />
     <TypeScriptCompile Include="ClientApp\components\BulletTask\index.tsx" />

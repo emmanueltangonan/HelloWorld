@@ -13,14 +13,7 @@ class BulletTask extends React.Component<BoardProps, any> {
 
     constructor(props: any) {
         super(props)
-
-        this.state = {
-            editMode: false,
-        }
-
         this.renderStyle = this.renderStyle.bind(this);
-        this.handleOnClick = this.handleOnClick.bind(this);
-        this.renderDescription = this.renderDescription.bind(this);
     }
 
     componentDidMount() {
@@ -35,38 +28,19 @@ class BulletTask extends React.Component<BoardProps, any> {
         }
     }
 
-    handleOnClick() {
-        this.setState({
-            editMode: true,
-        })
-    }
-
-    renderDescription(task: any, editMode: any) {
-        if (editMode) {
-            return (
-                <span>
-                    <input type="text" />
-                </span>
-            )
-        } else {
-            return (
+    public render() {
+        const { task } = this.props;
+        console.log(task)
+        return (
+            <div >
                 <span
                     className="task-desc"
                     style={this.renderStyle(task)}
-                    onClick={this.handleOnClick}
                 >
                     {task.description}
                 </span>
-            )
-        }
-        
-    }
-
-    public render() {
-        const { task } = this.props;
-        const { editMode } = this.state;
-        return (
-            this.renderDescription(task, editMode)
+                    
+            </div >
         )
     }
 }
