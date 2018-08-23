@@ -1,0 +1,7 @@
+
+Scaffold-DbContext "Server=(localdb)\mssqllocaldb;Database=HelloWorld;Trusted_Connection=True;MultipleActiveResultSets=true;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+Scaffold-DbContext "Server=(localdb)\ProjectsV13;Database=HelloWorld;Trusted_Connection=True;MultipleActiveResultSets=true;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+
+Scaffold-DbContext "Server=localhost;Database=HelloWorld;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models

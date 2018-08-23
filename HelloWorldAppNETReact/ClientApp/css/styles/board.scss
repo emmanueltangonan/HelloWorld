@@ -1,0 +1,33 @@
+﻿
+div.board {
+    min-width: 1200px;
+    min-height: 600px;
+    background-color: lightgray;
+}
+
+div.notes-container {
+    margin-left: 70px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+div.add-btn {
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.7);
+    width: 60px;
+    height: 50px;
+    background: lightgreen;
+    position: fixed;
+    z-index: 5000;
+    top: 20px;
+    text-align: center;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: all ease-in-out .1s;
+}
+
+div.add-btn:hover {
+    transform: scale(1.1);
+}
+div.add-btn:active {
+    transform: scale(1);
+}

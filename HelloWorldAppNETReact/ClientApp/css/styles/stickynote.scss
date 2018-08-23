@@ -1,0 +1,33 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light);
+
+div.sticky-note {
+    height: 240px;
+    width: 200px;
+    background-color: #fdfd96;
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.4);
+    margin: 5px;
+    font-family: Shadows Into Light, Arial;
+    cursor: -webkit-grab;
+}
+
+div.sticky-note-title {
+    text-align: center;
+    margin: 5px;
+    font-size: 20px;
+    cursor: text;
+}
+
+div.sticky-note-task {
+    margin: 3px;
+    font-size: 16px;
+    cursor: text;
+}
+
+.sticky-note-task i {
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.sticky-note-task i:hover + span.task-desc {
+    text-decoration: line-through;
+}
