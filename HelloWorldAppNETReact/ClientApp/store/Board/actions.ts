@@ -1,6 +1,7 @@
 ﻿import { AppThunkAction } from '../';
 import { fetch, addTask } from 'domain-task';
 import axios from 'axios';
+import { StickyNote } from '.';
 
 interface GetAllNotesAction {
     type: 'GET_ALL_NOTES';
@@ -12,8 +13,18 @@ interface GetTasksAction {
     payload: any;
 }
 
-interface CreateNewNoteAction {
-    type: 'CREATE_NEW_NOTE';
+interface SaveNewNoteAction {
+    type: 'SAVE_NEW_NOTE';
+    payload: any;
+}
+
+interface UpdateTaskAction {
+    type: 'UPDATE_TASK';
+    payload: any;
+}
+
+interface SetIsEditableNoteOpenAction {
+    type: 'TOGGLE_EDITABLE_NOTE';
     payload: any;
 }
 
@@ -22,7 +33,8 @@ interface SetErrorAction {
     payload: any;
 }
 
-export type KnownAction = GetAllNotesAction | GetTasksAction | SetErrorAction | CreateNewNoteAction;
+export type KnownAction = GetAllNotesAction | GetTasksAction | SetErrorAction | SaveNewNoteAction | SetIsEditableNoteOpenAction
+    | UpdateTaskAction;
 
 // ACTION CREATORS
 export const actionCreators = {
@@ -45,7 +57,7 @@ export const actionCreators = {
         axios.get(`/api/HelloWorld/GetTasks?stickyNoteId=${stickyNoteId}`)
             .then(res => {
                 if (res && res.status === 200) {
-                    //console.log(res)
+                    console.log(res)
                     dispatch({ type: 'GET_TASKS', payload: res.data });
                 } else {
                     console.log('ERROR:: ', res.statusText);
@@ -53,15 +65,71 @@ export const actionCreators = {
             });
         
     },
-    createNewNote: (date: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        var newNote = {
-            title: 'Untitled',
-            priorityLevel: 'low',
-            tasks: [
-                { description: 'Add task' }
-            ]
-        };
-        dispatch({ type: 'CREATE_NEW_NOTE', payload: newNote });
+    saveNewNote: (newNote: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        if (!newNote) {
+            return;
+        }
+
+        const newTasks = newNote.tasks.map((task: any) => {
+            return { description: task }
+        })
+        newNote.task = newTasks;
+        newNote.dueDate = getState().board.date;
+        newNote.type = 'todo';
+
+        console.log(newNote)
+        axios.post('/api/HelloWorld/SaveNewNote', newNote)
+            .then(res => {
+                console.log(res)
+                if (res && res.status !== 200) {
+                    throw Error;
+                }
+                const newNoteDisplay = { ...newNote, tasks: newNote.task }
+                dispatch({ type: 'SAVE_NEW_NOTE', payload: newNoteDisplay });
+                //close the editable note and toggle button
+                dispatch({ type: 'TOGGLE_EDITABLE_NOTE', payload: false });
+            })
+            .catch(error => {
+                console.log(error)
+            });
         //save in DB
+    },
+    updateTask: (task: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        console.log(task);
+        axios.post('/api/HelloWorld/UpdateTask', task)
+            .then(res => {
+                if (res && res.status !== 200) {
+                    throw Error;
+                }
+                console.log(res.data);
+                const updatedTask = res.data;
+                const payloadNoteId = updatedTask && updatedTask.stickyNoteId;
+                let newNotes;
+                if (payloadNoteId) {
+                    newNotes = getState().board.notes.map(note => {
+                        var noteObj = { ...note };
+
+                        if (noteObj.id == payloadNoteId) {
+                            let newTasks = noteObj.tasks.map(task => {
+                                var taskObj = { ...task };
+                                if (updatedTask.id == taskObj.id) {
+                                    return updatedTask;
+                                }
+                                return taskObj;
+                            })
+                            noteObj.tasks = newTasks;
+                        }
+                        return noteObj;
+                    })
+                }
+                console.log(newNotes)
+                dispatch({ type: 'UPDATE_TASK', payload: newNotes });
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    },
+    toggleEditableNote: (newState: boolean): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'TOGGLE_EDITABLE_NOTE', payload: newState });
     },
 };

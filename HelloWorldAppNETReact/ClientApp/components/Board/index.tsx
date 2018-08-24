@@ -6,6 +6,7 @@ import * as BoardState from '../../store/Board';
 import StickyNote from '../StickyNote';
 import Draggable from 'react-draggable';
 import EditableNote from '../EditableNote';
+import Header from '../Header';
 
 type BoardProps =
     BoardState.BoardState       
@@ -18,10 +19,6 @@ class Board extends React.Component<BoardProps, any> {
         super(props)
         this.handleButton = this.handleButton.bind(this)
         this.getDisplay = this.getDisplay.bind(this)
-
-        this.state = {
-            newNoteOpen: false,
-        }
     }
 
     componentDidMount() {
@@ -30,24 +27,23 @@ class Board extends React.Component<BoardProps, any> {
 
     handleButton() {
         //this.props.createNewNote();
-        const { newNoteOpen } = this.state;
-        this.setState({
-            newNoteOpen: !newNoteOpen
-        })
+        const { isEditableNoteOpen } = this.props;
+        this.props.toggleEditableNote(!isEditableNoteOpen);
     }
 
     getDisplay() {
-        const { newNoteOpen } = this.state;
-        return newNoteOpen ? {} : { display: 'none'};
+        const { isEditableNoteOpen } = this.props;
+        return isEditableNoteOpen ? {} : { display: 'none'};
     }
 
     public render() {
         const { notes } = this.props;
-        const { newNoteOpen } = this.state;
+        const { isEditableNoteOpen } = this.props;
         console.log(notes)
         return (
             <div className="board">
-                <div className="add-btn" onClick={this.handleButton} >{newNoteOpen ? 'Cancel' : 'New'}</div>
+                <Header />
+                <div className="add-btn" onClick={this.handleButton} >{isEditableNoteOpen ? 'Cancel' : 'New'}</div>
                 <EditableNote display={ this.getDisplay() } />
                 <div className="notes-container">
                     {notes && 

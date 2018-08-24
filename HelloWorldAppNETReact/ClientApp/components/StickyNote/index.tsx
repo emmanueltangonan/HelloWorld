@@ -16,7 +16,6 @@ class StickyNote extends React.Component<BoardProps, {}> {
 
     constructor(props: any) {
         super(props)
-        this.renderFontAwesomeIcon = this.renderFontAwesomeIcon.bind(this);
     }
 
     componentDidMount() {
@@ -26,34 +25,7 @@ class StickyNote extends React.Component<BoardProps, {}> {
         }
     }
 
-    renderFontAwesomeIcon(task: any) {
-        if (task.isDone) {
-            return <i className="fa fa-check" style={{ fontSize: '16px' }}>&nbsp;</i>
-        }
-        //else if (task.isCancelled) {
-        //    return <i className="fa fa-times" style={{ fontSize: '15px' }}>&nbsp;</i>
-        //}
-        else {
-            return <i className="fa fa-circle">&ensp;</i>
-        }
-    }
-
-
-
-    //editTaskDesc(task: any) {
-    //    const { note } = this.props;
-    //    let newTasks = note.tasks.map((task: any) => {
-    //        var taskObj = { ...task };
-
-    //        if (noteObj.id == payloadNoteId) {
-    //            noteObj.tasks = action.payload;
-    //        }
-    //    });
-    //    let newNote = {
-    //        ...note, tasks: 
-    //    }
-    //}
-
+ 
     public render() {
         const { note } = this.props;
         return (
@@ -64,13 +36,10 @@ class StickyNote extends React.Component<BoardProps, {}> {
                         <div className="pull-right"> Priority: {note.priorityLevel} </div>
                     </div>
                     <div className="col-sm-12 sticky-note-title"> <strong>{note.title}</strong> </div>
-                    <div className="col-sm-12">
+                    <div className="">
                         {note.tasks &&
                             note.tasks.map((task: any) => (
-                                <div key={task.id} className="saved-task sticky-note-task">
-                                    {this.renderFontAwesomeIcon(task)}
-                                    <BulletTask task={task} />
-                                </div>
+                                <BulletTask task={task}/>
                             ))
                         }
                     </div>

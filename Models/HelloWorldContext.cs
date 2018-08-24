@@ -4,10 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HelloWorldAppNETReact.Models
 {
-    public partial class HelloWorldContext : DbContext
+    public class HelloWorldContext : DbContext
     {
         public virtual DbSet<StickyNote> StickyNote { get; set; }
         public virtual DbSet<Task> Task { get; set; }
+
+        public HelloWorldContext()
+        { }
 
         public HelloWorldContext(DbContextOptions<HelloWorldContext> options)
             : base(options)
@@ -17,6 +20,8 @@ namespace HelloWorldAppNETReact.Models
         {
             modelBuilder.Entity<StickyNote>(entity =>
             {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.CreationDate)
                     .HasColumnName("creationDate")
                     .HasColumnType("datetime");
@@ -51,10 +56,6 @@ namespace HelloWorldAppNETReact.Models
                     .HasColumnName("title")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.UpdatedDate)
-                    .HasColumnName("updatedDate")
-                    .HasColumnType("datetime");
-
                 entity.Property(e => e.XPos).HasColumnName("xPos");
 
                 entity.Property(e => e.YPos).HasColumnName("yPos");
@@ -62,9 +63,7 @@ namespace HelloWorldAppNETReact.Models
 
             modelBuilder.Entity<Task>(entity =>
             {
-                entity.Property(e => e.CreationDate)
-                    .HasColumnName("creationDate")
-                    .HasColumnType("datetime");
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
@@ -73,10 +72,6 @@ namespace HelloWorldAppNETReact.Models
                 entity.Property(e => e.IsDone).HasColumnName("isDone");
 
                 entity.Property(e => e.StickyNoteId).HasColumnName("stickyNoteId");
-
-                entity.Property(e => e.UpdatedDate)
-                    .HasColumnName("updatedDate")
-                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.StickyNote)
                     .WithMany(p => p.Task)

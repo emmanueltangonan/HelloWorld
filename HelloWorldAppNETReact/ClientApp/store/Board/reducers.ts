@@ -4,18 +4,9 @@ import { BoardState } from './';
 import { KnownAction } from './actions';
 
 const unloadedState: BoardState = {
-    notes: [
-        {
-            id: 124,
-            title: 'Sample Title 1',
-            priorityLevel: 'Med',
-            dueDate: new Date(),
-            tasks: [
-                { id: 1, desc: 'Finish Hello World project', isDone: false, isCancelled: false },
-                { id: 2, desc: 'Go to bed', isDone: false, isCancelled: false }
-            ]
-        },
-    ]
+    notes: [],
+    date: new Date(),
+    isEditableNoteOpen: false,
 };
 
 export const reducer: Reducer<BoardState> = (state: BoardState, incomingAction: Action) => {
@@ -41,17 +32,26 @@ export const reducer: Reducer<BoardState> = (state: BoardState, incomingAction: 
             } else {
                 newNotes = state.notes;
             }
-            console.log(newNotes)
+            
             return {
                 ...state,
                 notes: newNotes,
             };
-        case 'CREATE_NEW_NOTE':
+        case 'SAVE_NEW_NOTE':
             return {
                 ...state,
                 notes: [...state.notes, action.payload]
             };
-
+        case 'TOGGLE_EDITABLE_NOTE':
+            return {
+                ...state,
+                isEditableNoteOpen: action.payload,
+            };
+        case 'UPDATE_TASK':
+            return {
+                ...state,
+                notes: action.payload,
+            };
         case 'SET_ERROR':
             return {
                 ...state,

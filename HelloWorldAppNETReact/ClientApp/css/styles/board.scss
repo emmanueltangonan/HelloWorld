@@ -5,6 +5,12 @@ div.board {
     background-color: lightgray;
 }
 
+div.board-header{
+    width: 100%;
+    height: 50px;
+    background: gray;
+}
+
 div.notes-container {
     margin-left: 70px;
     display: flex;
@@ -31,13 +37,13 @@ div.new-note {
     top: 80px;
     z-index: 5000;
     transition: all ease-in-out .5s;
-
-    height: 240px;
+    min-height: 240px;
     width: 200px;
-    background-color: #fdfd96;
+    background-color: lightgreen;
     box-shadow: 0px 0px 8px rgba(0,0,0,0.4);
     margin: 5px;
     font-family: Shadows Into Light, Arial;
+    padding-bottom: 50px;
 }
 
 div.add-btn:hover {
@@ -45,4 +51,50 @@ div.add-btn:hover {
 }
 div.add-btn:active {
     transform: scale(1);
+}
+
+div.edit-task.sticky-note-task,
+div.editable-note-task-container {
+    padding: 0;
+}
+
+
+/* NEW NOTE */
+
+div.note-footer {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    padding: 9px;
+    font-family: sans-serif;
+}
+
+div.new-note input[type="text"] {
+    background: transparent;
+    border: none;
+}
+
+div.new-note input.title {
+    font-size: 20px;
+}
+
+div.new-note input.task {
+    width: 130px;
+}
+
+div.new-note input[type="text"]:active,
+div.new-note input[type="text"]:focus,
+div.new-note input[type="text"]:visited {
+    border: none;
+    outline: none;
+}
+
+button.note-save-btn {
+}
+
+div.editable-note-task-container {
+    /*overflow-y: auto;*/
+    /*overflow-x: hidden;*/
+    /*height: 140px;*/
 }

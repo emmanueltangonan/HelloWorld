@@ -18,30 +18,75 @@ class EditableNote extends React.Component<BoardProps, any> {
         this.state = {
             title: 'Untitled',
             priorityLevel: 'low',
-            tasks: ['Add task'],
+            tasks: [],
         }
         this.handleMinus = this.handleMinus.bind(this);
-        this.focusNewTaskInput = this.focusNewTaskInput.bind(this);
+        this.handlePlus = this.handlePlus.bind(this);
+        this.handleEnter = this.handleEnter.bind(this);
+        this.handleSave = this.handleSave.bind(this);
+        this.onTitleChange = this.onTitleChange.bind(this);
     }
 
     componentDidMount() {
 
     }
 
-    handleMinus(desc: string) {
+    handleMinus(index: number) {
         const { tasks } = this.state;
-        let newTasks = tasks.filter((task: any) => {
-            task != desc;
-        })
+        let newTasks = tasks.slice(0, index).concat(tasks.slice(index + 1, tasks.length))
+        console.log(newTasks)
         this.setState({
             tasks: newTasks
         });
     }
 
-    focusNewTaskInput() {
+    handlePlus() {
+        const { tasks } = this.state;
+        const input = this.newTaskInput;
+        //console.log(input.value)
+        if (input && input.value.trim()) {
+            this.setState({
+                tasks: [...tasks, input.value]
+            });
+            input.value = '';
+        } 
         this.newTaskInput.focus();
     }
-    
+
+    handleEnter(e: any) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            this.handlePlus();
+        }
+    }
+
+    handleSave() {
+        const {
+            title,
+            priorityLevel,
+            tasks
+        } = this.state;
+        const newNote = {
+            title,
+            priorityLevel,
+            tasks
+        }
+        this.props.saveNewNote(newNote);
+        this.setState({
+            title: 'Untitled',
+            priorityLevel: 'low',
+            tasks: [],
+        });
+    }
+
+    onTitleChange(e:any) {
+        const title = e.target.value;
+        
+        this.setState({
+            title: title
+        });
+    }
+
     public render() {
         const { display } = this.props;
         const { title, priorityLevel, tasks } = this.state;
@@ -52,32 +97,53 @@ class EditableNote extends React.Component<BoardProps, any> {
                 </div>
 
                 <div className="col-sm-12">
-                    <strong><input className="title" type="text" value={ title }/></strong>
+                    <strong>
+                        <input
+                            className="title"
+                            type="text"
+                            value={title}
+                            onChange={this.onTitleChange}
+                        />
+                    </strong>
                 </div>
-                <div className="col-sm-12">
-                    {   tasks.map((desc: any) => (
-                        <div className="edit-task sticky-note-task">
-                            <i className="fa fa-minus" onClick={() => this.handleMinus(desc)} >&ensp;</i>
+                <div className="col-sm-12 editable-note-task-container">
+                    {tasks.map((desc: any, i: number) => (
+                        <div key={i} className="edit-task sticky-note-task col-sm-12">
+                                <div className="col-sm-2">
+                                    <i className="fa fa-minus" onClick={() => this.handleMinus(i)} >&ensp;</i>
+                                </div>
+                                <div className="col-sm-10 no-padding">
                                     <span className="task-desc">
                                         {desc}
                                     </span>
+                                </div>
                             </div>
                         ))
                     }
                     <div className="edit-task sticky-note-task">
-                        <i className="fa fa-plus" onClick={this.focusNewTaskInput} >&ensp;</i>
-                        <span>
-                            <input className="task"
-                                type="text"
-                                ref={(input) => this.newTaskInput = input}
-                            />
-                        </span>
+                        <div className="col-sm-2">
+                            <i className="fa fa-plus" onClick={this.handlePlus} >&ensp;</i>
+                        </div>
+                        <div className="col-sm-10 no-padding">
+                            <span>
+                                <input className="task"
+                                    type="text"
+                                    ref={(input) => this.newTaskInput = input}
+                                    onKeyPress={this.handleEnter}
+                                />
+                            </span>
+                        </div>
                     </div>
                 </div>
                 
                     
                 <div className="note-footer">
-                    <button className="note-save-btn pull-right"> Save </button>
+                    <button
+                        className="note-save-btn pull-right"
+                        onClick={this.handleSave}
+                    > 
+                        Save
+                    </button>
                 </div>
             </div>
         )

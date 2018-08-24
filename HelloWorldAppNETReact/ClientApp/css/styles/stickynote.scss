@@ -1,5 +1,9 @@
 ﻿@import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light);
 
+.no-padding {
+    padding: 0px;
+}
+
 div.sticky-note {
     height: 240px;
     width: 200px;
@@ -14,53 +18,23 @@ div.sticky-note-title {
     text-align: center;
     margin: 5px;
     font-size: 20px;
-    cursor: text;
 }
 
 div.sticky-note-task {
     margin: 3px;
     font-size: 16px;
-    cursor: text;
+    padding: 0;
+}
+
+div.sticky-note-task:hover {
+    cursor: pointer;
 }
 
 .sticky-note-task i {
     font-size: 10px;
-    cursor: pointer;
 }
 
-.saved-task.sticky-note-task i:hover + span.task-desc {
+div.sticky-note-task-fa>i:hover + span.task-desc {
     text-decoration: line-through;
 }
 
-div.note-footer {
-    width: 100%;
-    height: 50px;
-    position: absolute;
-    bottom: 0;
-    background: gray;
-    padding: 9px;
-    font-family: sans-serif;
-}
-
-div.new-note input[type="text"] {
-    background: transparent;
-    border: none;
-}
-
-div.new-note input.title {
-    font-size: 20px;
-}
-
-div.new-note input.task {
-    width: 140px;
-}
-
-div.new-note input[type="text"]:active,
-div.new-note input[type="text"]:focus,
-div.new-note input[type="text"]:visited {
-    border: none;
-    outline: none;
-}
-
-button.note-save-btn {
-}

@@ -10,8 +10,6 @@ namespace HelloWorldAppNETReact.Models
         public int? IsDone { get; set; }
         public int? IsCancelled { get; set; }
         public int StickyNoteId { get; set; }
-        public DateTime? CreationDate { get; set; }
-        public DateTime? UpdatedDate { get; set; }
 
         public StickyNote StickyNote { get; set; }
     }

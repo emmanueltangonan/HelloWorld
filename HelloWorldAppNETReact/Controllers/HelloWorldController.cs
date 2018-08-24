@@ -60,7 +60,7 @@ namespace HelloWorldAppNETReact.Controllers
             var query = _context.Task;
 
             try
-            {
+            {   
                 if (stickyNoteId == null)
                 {
                     return BadRequest();
@@ -81,6 +81,49 @@ namespace HelloWorldAppNETReact.Controllers
             }
 
             return Ok(queryResult);
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult SaveNewNote([FromBody] StickyNote note)
+        {
+            try
+            {
+                _context.StickyNote.Add(note);
+
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+
+            return Ok("success");
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult UpdateTask([FromBody] Models.Task task)
+        {
+            Models.Task taskToUpdate = null;
+            try
+            {
+                taskToUpdate = _context.Task.Where(t => t.Id == task.Id).Single<Models.Task>();
+                if (taskToUpdate != null && (taskToUpdate.IsDone == 0 || taskToUpdate.IsDone == null))
+                {
+                    taskToUpdate.IsDone = 1;
+                }
+                else
+                {
+                    taskToUpdate.IsDone = 0;
+                }
+                
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+
+            return Ok(taskToUpdate);
         }
 
     }

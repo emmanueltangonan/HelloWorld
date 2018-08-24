@@ -3,7 +3,9 @@ import { actionCreators as ac } from './actions';
 import { reducer as r } from './reducers';
 
 export interface BoardState {
-    notes: Array<StickyNote>
+    notes: Array<StickyNote>,
+    date: Date,
+    isEditableNoteOpen: boolean,
 }
 
 export interface StickyNote {
