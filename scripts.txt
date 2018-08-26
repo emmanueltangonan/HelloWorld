@@ -5,3 +5,11 @@ Scaffold-DbContext "Server=(localdb)\ProjectsV13;Database=HelloWorld;Trusted_Con
 
 
 Scaffold-DbContext "Server=localhost;Database=HelloWorld;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+
+Slack Apps
+#https://api.slack.com/apps
+
+NGROK
+https://ngrok.com/
+ngrok http -host-header="localhost:58821" 58821
