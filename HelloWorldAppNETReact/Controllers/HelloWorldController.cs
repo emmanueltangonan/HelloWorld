@@ -97,7 +97,7 @@ namespace HelloWorldAppNETReact.Controllers
                 return StatusCode(500, e);
             }
 
-            return Ok("success");
+            return Ok(note.Id);
         }
 
         [HttpPost("[action]")]
@@ -115,6 +115,26 @@ namespace HelloWorldAppNETReact.Controllers
                 {
                     taskToUpdate.IsDone = 0;
                 }
+
+                //ICollection<Models.Task> allTasks = _context.Task
+                //    .Where(t => t.StickyNoteId == taskToUpdate.StickyNoteId)
+                //    .ToList();
+
+                //bool allTasksComplete = true;
+                //foreach (Models.Task t in allTasks)
+                //{
+                //    if (t.IsDone == null || t.IsDone == 0)
+                //    {
+                //        allTasksComplete = false;
+                //        break;
+                //    }
+                //}
+
+                //StickyNote note = _context.StickyNote
+                //    .Where(n => n.Id == taskToUpdate.StickyNoteId)
+                //    .First();
+
+                //note.IsComplete = allTasksComplete ? 1 : 0;
                 
                 _context.SaveChanges();
             }
@@ -124,6 +144,36 @@ namespace HelloWorldAppNETReact.Controllers
             }
 
             return Ok(taskToUpdate);
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult DeleteNote([FromBody] StickyNote note)
+        {
+            try
+            {
+                StickyNote noteToDelete = _context.StickyNote
+                    .Where(n => n.Id == note.Id)
+                    .First();
+
+                ICollection<Models.Task> tasks = _context.Task
+                    .Where(t => t.StickyNoteId == note.Id)
+                    .ToList();
+
+                foreach (var task in tasks)
+                {
+                    _context.Remove(task);
+                }
+
+                _context.Remove(noteToDelete);
+
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+
+            return Ok("success");
         }
 
     }

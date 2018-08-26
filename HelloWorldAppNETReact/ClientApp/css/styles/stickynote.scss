@@ -7,7 +7,6 @@
 div.sticky-note {
     height: 240px;
     width: 200px;
-    background-color: #fdfd96;
     box-shadow: 0px 0px 8px rgba(0,0,0,0.4);
     margin: 5px;
     font-family: Shadows Into Light, Arial;
@@ -26,15 +25,58 @@ div.sticky-note-task {
     padding: 0;
 }
 
-div.sticky-note-task:hover {
-    cursor: pointer;
-}
-
 .sticky-note-task i {
     font-size: 10px;
 }
 
-div.sticky-note-task-fa>i:hover + span.task-desc {
-    text-decoration: line-through;
+div.sticky-note-task-fa:hover,
+span.task-desc:hover {
+    cursor: pointer;
 }
 
+span.dot {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* CLOSE BUTTON */
+div.delete-btn {
+    position: absolute;
+    right: -7px;
+    top: -7px;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: black;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    color: lightgray;
+}
+div.delete-btn:hover {
+    transform: scale(1.2);
+    opacity: 1;
+}
+div.delete-btn:active {
+    transform: scale(1);
+}
+div.delete-btn i {
+    position: absolute;
+    top: 0px;
+    right: 2px;
+}
+
+/* CONFIRM DELETE NOTE */
+div.confirm-delete {
+    position: relative;
+    top: 20%;
+    text-align: center;
+}
+div.confirm-delete-msg {
+    padding: 20px 0;
+}
+div.confirm-delete-btn-holder button{
+    margin: 0 5px;
+}

@@ -67,3 +67,6 @@ ALTER TABLE [dbo].[Task] CHECK CONSTRAINT [FK_StickyNote]
 GO
 
 
+----------- Aug 25 8pm
+ALTER TABLE stickynote
+ADD isComplete int;

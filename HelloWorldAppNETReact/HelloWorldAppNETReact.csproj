@@ -30,6 +30,7 @@
     <None Remove="ClientApp\components\StickyNote\test.ts" />
     <None Remove="ClientApp\components\BulletTask\index.tsx" />
     <None Remove="ClientApp\components\BulletTask\test.ts" />
+    <None Remove="ClientApp\constants\constants.ts" />
     <None Remove="ClientApp\store\StickyNote\actions.ts" />
     <None Remove="ClientApp\store\StickyNote\index.ts" />
     <None Remove="ClientApp\store\StickyNote\reducers.ts" />
@@ -48,6 +49,7 @@
     <TypeScriptCompile Include="ClientApp\components\StickyNote\test.ts" />
     <TypeScriptCompile Include="ClientApp\components\BulletTask\index.tsx" />
     <TypeScriptCompile Include="ClientApp\components\BulletTask\test.ts" />
+    <TypeScriptCompile Include="ClientApp\constants\constants.ts" />
     <TypeScriptCompile Include="ClientApp\store\StickyNote\actions.ts" />
     <TypeScriptCompile Include="ClientApp\store\StickyNote\index.ts" />
     <TypeScriptCompile Include="ClientApp\store\StickyNote\reducers.ts" />

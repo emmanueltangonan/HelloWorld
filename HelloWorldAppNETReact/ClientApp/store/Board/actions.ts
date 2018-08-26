@@ -28,13 +28,18 @@ interface SetIsEditableNoteOpenAction {
     payload: any;
 }
 
+interface DeleteNoteAction {
+    type: 'DELETE_NOTE';
+    payload: any;
+}
+
 interface SetErrorAction {
     type: 'SET_ERROR';
     payload: any;
 }
 
 export type KnownAction = GetAllNotesAction | GetTasksAction | SetErrorAction | SaveNewNoteAction | SetIsEditableNoteOpenAction
-    | UpdateTaskAction;
+    | UpdateTaskAction | DeleteNoteAction;
 
 // ACTION CREATORS
 export const actionCreators = {
@@ -57,8 +62,24 @@ export const actionCreators = {
         axios.get(`/api/HelloWorld/GetTasks?stickyNoteId=${stickyNoteId}`)
             .then(res => {
                 if (res && res.status === 200) {
-                    console.log(res)
-                    dispatch({ type: 'GET_TASKS', payload: res.data });
+                    
+                    const tasks = res.data;
+
+                    const payloadNoteId = tasks[0] && tasks[0].stickyNoteId;
+                    let newNotes;
+                    if (payloadNoteId) {
+                        newNotes = getState().board.notes.map(note => {
+                            var noteObj = { ...note };
+
+                            if (noteObj.id == payloadNoteId) {
+                                noteObj.tasks = tasks;
+                            }
+                            return noteObj;
+                        })
+                    } else {
+                        newNotes = getState().board.notes;
+                    }
+                    dispatch({ type: 'GET_TASKS', payload: newNotes });
                 } else {
                     console.log('ERROR:: ', res.statusText);
                 }
@@ -84,6 +105,7 @@ export const actionCreators = {
                 if (res && res.status !== 200) {
                     throw Error;
                 }
+                newNote.id = res.data;
                 const newNoteDisplay = { ...newNote, tasks: newNote.task }
                 dispatch({ type: 'SAVE_NEW_NOTE', payload: newNoteDisplay });
                 //close the editable note and toggle button
@@ -98,10 +120,10 @@ export const actionCreators = {
         console.log(task);
         axios.post('/api/HelloWorld/UpdateTask', task)
             .then(res => {
+                console.log(res);
                 if (res && res.status !== 200) {
                     throw Error;
-                }
-                console.log(res.data);
+                }   
                 const updatedTask = res.data;
                 const payloadNoteId = updatedTask && updatedTask.stickyNoteId;
                 let newNotes;
@@ -131,5 +153,24 @@ export const actionCreators = {
     },
     toggleEditableNote: (newState: boolean): AppThunkAction<KnownAction> => (dispatch, getState) => {
         dispatch({ type: 'TOGGLE_EDITABLE_NOTE', payload: newState });
+    },
+    deleteNote: (note: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        axios.post('/api/HelloWorld/DeleteNote', note)
+            .then(res => {
+                if (res && res.status !== 200) {
+                    throw Error;
+                }
+                // Update Notes State
+                let newNotes = getState().board.notes.filter(n => {
+                    if (note.id != n.id) {
+                        return n;
+                    }
+                });
+
+                dispatch({ type: 'DELETE_NOTE', payload: newNotes });
+            })
+            .catch(error => {
+                console.log(error)
+            });
     },
 };

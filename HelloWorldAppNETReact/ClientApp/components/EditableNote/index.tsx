@@ -5,26 +5,33 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
 import * as BoardState from '../../store/Board';
 import axios from 'axios';
+import Radium from 'radium';
+import { goBack } from 'react-router-redux';
+import { PriorityLevel, PriorityColor } from '../../constants/constants';
 
 type BoardProps =
     BoardState.BoardState
     & typeof BoardState.actionCreators
     & RouteComponentProps<{}>;
 
+const initialState = {
+    title: '',
+    priorityLevel: PriorityLevel.PRIORITY_LOW,
+    tasks: [],
+}
+
 class EditableNote extends React.Component<BoardProps, any> {
     newTaskInput: any;
     constructor(props: any) {
         super(props)
-        this.state = {
-            title: 'Untitled',
-            priorityLevel: 'low',
-            tasks: [],
-        }
+        this.state = initialState;
         this.handleMinus = this.handleMinus.bind(this);
         this.handlePlus = this.handlePlus.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.onTitleChange = this.onTitleChange.bind(this);
+        this.onPrioritySelectChange = this.onPrioritySelectChange.bind(this);
+        this.getProperStyle = this.getProperStyle.bind(this);
     }
 
     componentDidMount() {
@@ -49,7 +56,7 @@ class EditableNote extends React.Component<BoardProps, any> {
                 tasks: [...tasks, input.value]
             });
             input.value = '';
-        } 
+        }
         this.newTaskInput.focus();
     }
 
@@ -72,28 +79,50 @@ class EditableNote extends React.Component<BoardProps, any> {
             tasks
         }
         this.props.saveNewNote(newNote);
-        this.setState({
-            title: 'Untitled',
-            priorityLevel: 'low',
-            tasks: [],
-        });
+        this.setState(initialState);
     }
 
-    onTitleChange(e:any) {
+    onTitleChange(e: any) {
         const title = e.target.value;
-        
+
         this.setState({
             title: title
         });
     }
 
-    public render() {
+    onPrioritySelectChange(e: any) {
+        const priorityLevel = e.target.value;
+        this.setState({ priorityLevel });
+    }
+
+    getProperStyle() {
         const { display } = this.props;
+        const { priorityLevel } = this.state;
+        const backgroundColor = priorityLevel == PriorityLevel.PRIORITY_LOW
+            ? PriorityColor.PRIORITY_LOW : priorityLevel == PriorityLevel.PRIORITY_MED
+                ? PriorityColor.PRIORITY_MED : PriorityColor.PRIORITY_HIGH;
+        return {
+            ...display,
+            backgroundColor
+        }
+    }
+
+    public render() {
         const { title, priorityLevel, tasks } = this.state;
         return (
-            <div className="new-note" style={display}>
+            <div className="new-note" style={this.getProperStyle()}>
                 <div className="col-sm-12">
-                    <div className="pull-right"> Priority: {priorityLevel} </div>
+                    <div className="pull-right"> Priority:
+                        <select
+                            value={priorityLevel}
+                            className="editable-priority-select"
+                            onChange={this.onPrioritySelectChange}
+                        >
+                            <option value={PriorityLevel.PRIORITY_LOW}>{PriorityLevel.PRIORITY_LOW}</option>
+                            <option value={PriorityLevel.PRIORITY_MED}>{PriorityLevel.PRIORITY_MED}</option>
+                            <option value={PriorityLevel.PRIORITY_HIGH}>{PriorityLevel.PRIORITY_HIGH}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div className="col-sm-12">
@@ -102,6 +131,7 @@ class EditableNote extends React.Component<BoardProps, any> {
                             className="title"
                             type="text"
                             value={title}
+                            placeholder="Untitled"
                             onChange={this.onTitleChange}
                         />
                     </strong>
@@ -110,7 +140,7 @@ class EditableNote extends React.Component<BoardProps, any> {
                     {tasks.map((desc: any, i: number) => (
                         <div key={i} className="edit-task sticky-note-task col-sm-12">
                                 <div className="col-sm-2">
-                                    <i className="fa fa-minus" onClick={() => this.handleMinus(i)} >&ensp;</i>
+                                    <i className="fa fa-minus" onClick={() => this.handleMinus(i)} title="Remove task">&ensp;</i>
                                 </div>
                                 <div className="col-sm-10 no-padding">
                                     <span className="task-desc">
@@ -122,11 +152,12 @@ class EditableNote extends React.Component<BoardProps, any> {
                     }
                     <div className="edit-task sticky-note-task">
                         <div className="col-sm-2">
-                            <i className="fa fa-plus" onClick={this.handlePlus} >&ensp;</i>
+                            <i className="fa fa-plus" onClick={this.handlePlus} title="Add task">&ensp;</i>
                         </div>
                         <div className="col-sm-10 no-padding">
                             <span>
                                 <input className="task"
+                                    placeholder="Add task"
                                     type="text"
                                     ref={(input) => this.newTaskInput = input}
                                     onKeyPress={this.handleEnter}
@@ -139,9 +170,10 @@ class EditableNote extends React.Component<BoardProps, any> {
                     
                 <div className="note-footer">
                     <button
-                        className="note-save-btn pull-right"
+                        className="btn note-save-btn pull-right"
                         onClick={this.handleSave}
-                    > 
+                        disabled={tasks.length == 0 ? true : false}
+                    >
                         Save
                     </button>
                 </div>
@@ -153,4 +185,4 @@ class EditableNote extends React.Component<BoardProps, any> {
 export default connect(
     (state: ApplicationState) => state.board,
     BoardState.actionCreators
-)(EditableNote) as typeof EditableNote;
+)(Radium(EditableNote)) as typeof EditableNote;

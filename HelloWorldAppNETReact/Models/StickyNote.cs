@@ -23,6 +23,7 @@ namespace HelloWorldAppNETReact.Models
         public DateTime? EndTime { get; set; }
         public int? XPos { get; set; }
         public int? YPos { get; set; }
+        public int? IsComplete { get; set; }
 
         public ICollection<Task> Task { get; set; }
     }

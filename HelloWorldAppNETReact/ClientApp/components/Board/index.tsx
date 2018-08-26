@@ -17,11 +17,17 @@ class Board extends React.Component<BoardProps, any> {
 
     constructor(props: any) {
         super(props)
+        this.state = {
+            windowHeight: null
+        }
         this.handleButton = this.handleButton.bind(this)
         this.getDisplay = this.getDisplay.bind(this)
     }
 
     componentDidMount() {
+        this.setState({
+            windowHeight: window.innerHeight
+        });
         this.props.getAllNotes();
     }
 
@@ -37,11 +43,11 @@ class Board extends React.Component<BoardProps, any> {
     }
 
     public render() {
-        const { notes } = this.props;
-        const { isEditableNoteOpen } = this.props;
-        console.log(notes)
+        const { notes, isEditableNoteOpen } = this.props;
+        const { windowHeight } = this.state;
+        
         return (
-            <div className="board">
+            <div className="board" style={{ height: windowHeight }}>
                 <Header />
                 <div className="add-btn" onClick={this.handleButton} >{isEditableNoteOpen ? 'Cancel' : 'New'}</div>
                 <EditableNote display={ this.getDisplay() } />

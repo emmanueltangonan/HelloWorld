@@ -18,24 +18,24 @@ export const reducer: Reducer<BoardState> = (state: BoardState, incomingAction: 
                 notes: action.payload,
             };
         case 'GET_TASKS':
-            const payloadNoteId = action.payload[0] && action.payload[0].stickyNoteId;
-            let newNotes;
-            if (payloadNoteId) {
-                newNotes = state.notes.map(note => {
-                    var noteObj = { ...note };
+            //const payloadNoteId = action.payload[0] && action.payload[0].stickyNoteId;
+            //let newNotes;
+            //if (payloadNoteId) {
+            //    newNotes = state.notes.map(note => {
+            //        var noteObj = { ...note };
 
-                    if (noteObj.id == payloadNoteId) {
-                        noteObj.tasks = action.payload;
-                    }
-                    return noteObj;
-                })
-            } else {
-                newNotes = state.notes;
-            }
+            //        if (noteObj.id == payloadNoteId) {
+            //            noteObj.tasks = action.payload;
+            //        }
+            //        return noteObj;
+            //    })
+            //} else {
+            //    newNotes = state.notes;
+            //}
             
             return {
                 ...state,
-                notes: newNotes,
+                notes: action.payload,
             };
         case 'SAVE_NEW_NOTE':
             return {
@@ -48,6 +48,11 @@ export const reducer: Reducer<BoardState> = (state: BoardState, incomingAction: 
                 isEditableNoteOpen: action.payload,
             };
         case 'UPDATE_TASK':
+            return {
+                ...state,
+                notes: action.payload,
+            };
+        case 'DELETE_NOTE':
             return {
                 ...state,
                 notes: action.payload,

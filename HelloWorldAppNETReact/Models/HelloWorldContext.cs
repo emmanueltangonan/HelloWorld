@@ -58,6 +58,8 @@ namespace HelloWorldAppNETReact.Models
                 entity.Property(e => e.XPos).HasColumnName("xPos");
 
                 entity.Property(e => e.YPos).HasColumnName("yPos");
+
+                entity.Property(e => e.IsComplete).HasColumnName("isComplete");
             });
 
             modelBuilder.Entity<Task>(entity =>
