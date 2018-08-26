@@ -6,6 +6,6 @@
 
 export class PriorityColor {
     public static readonly PRIORITY_LOW = '#fdfd96';
-    public static readonly PRIORITY_MED = '#FED86F';
+    public static readonly PRIORITY_MED = '#FECA58';
     public static readonly PRIORITY_HIGH = '#ff971a';
 }
