@@ -21,7 +21,7 @@ namespace HelloWorldAppNETReact.Controllers
 
 
         [HttpGet("[action]")]
-        public IActionResult GetNotes(DateTime? date = null)
+        public IActionResult GetNotes(string view, DateTime? date = null)
         {
             ICollection<StickyNote> queryResult = null;
             var query = _context.StickyNote;
@@ -31,8 +31,20 @@ namespace HelloWorldAppNETReact.Controllers
                 if (date == null)
                 // get all notes
                 {
-                    queryResult = query
-                        .ToList();
+
+                    if (!String.IsNullOrEmpty(view) && view.ToLower().Equals("active"))
+                    {
+                        queryResult = query
+                            .Where(n => n.IsComplete != 1)
+                            .ToList();
+                    }
+                    else //archived 
+                    {
+                        queryResult = query
+                            .Where(n => n.IsComplete == 1)
+                            .ToList();
+                    }
+                    
                 }
                 else
                 {
@@ -88,6 +100,10 @@ namespace HelloWorldAppNETReact.Controllers
         {
             try
             {
+                DateTime now = DateTime.Now;
+                note.CreationDate = now;
+                note.UpdatedDate = now;
+                note.Origin = "Web app";
                 _context.StickyNote.Add(note);
 
                 _context.SaveChanges();
@@ -115,6 +131,8 @@ namespace HelloWorldAppNETReact.Controllers
                 {
                     taskToUpdate.IsDone = 0;
                 }
+                taskToUpdate.UpdatedDate = DateTime.Now;
+                _context.SaveChanges();
 
                 //ICollection<Models.Task> allTasks = _context.Task
                 //    .Where(t => t.StickyNoteId == taskToUpdate.StickyNoteId)
@@ -135,8 +153,7 @@ namespace HelloWorldAppNETReact.Controllers
                 //    .First();
 
                 //note.IsComplete = allTasksComplete ? 1 : 0;
-                
-                _context.SaveChanges();
+                //_context.SaveChanges();
             }
             catch (Exception e)
             {

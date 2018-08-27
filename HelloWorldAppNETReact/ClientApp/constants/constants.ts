@@ -9,3 +9,7 @@ export class PriorityColor {
     public static readonly PRIORITY_MED = '#FECA58';
     public static readonly PRIORITY_HIGH = '#ff971a';
 }
+
+export class BoardView {
+    public static readonly ACTIVE = 'active';
+    public static readonly ARCHIVE = 'archive';}

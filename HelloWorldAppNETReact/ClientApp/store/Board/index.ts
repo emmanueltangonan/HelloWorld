@@ -6,6 +6,7 @@ export interface BoardState {
     notes: Array<StickyNote>,
     date: Date,
     isEditableNoteOpen: boolean,
+    view: string
 }
 
 export interface StickyNote {

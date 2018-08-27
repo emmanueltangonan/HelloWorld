@@ -24,6 +24,7 @@ namespace HelloWorldAppNETReact.Models
         public int? XPos { get; set; }
         public int? YPos { get; set; }
         public int? IsComplete { get; set; }
+        public string Origin { get; set; }
 
         public ICollection<Task> Task { get; set; }
     }

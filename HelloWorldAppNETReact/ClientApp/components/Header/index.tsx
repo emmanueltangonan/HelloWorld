@@ -16,17 +16,19 @@ class Header extends React.Component<BoardProps, any> {
     constructor(props: any) {
         super(props)
     }
-
-    componentDidMount() {
-
-    }
-
     
     public render() {
-        
+        const { handleSelectChange } = this.props;
         return (
             <div className="board-header">
-                <div></div>
+                <div className="header-view-select">
+                    <div className="form-group">
+                        <select className="form-control" onChange={handleSelectChange}>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="ARCHIVE">ARCHIVE</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         )
     }

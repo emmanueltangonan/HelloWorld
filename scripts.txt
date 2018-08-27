@@ -7,9 +7,14 @@ Scaffold-DbContext "Server=(localdb)\ProjectsV13;Database=HelloWorld;Trusted_Con
 Scaffold-DbContext "Server=localhost;Database=HelloWorld;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 
 
+@"Server=localhost;Database=HelloWorld;Trusted_Connection=True";
+@"Server=EMAN-PC\SQLEXPRESS;Database=HelloWorld;uid=sa;password=root;ConnectRetryCount=0";
+
 Slack Apps
 #https://api.slack.com/apps
 
 NGROK
 https://ngrok.com/
 ngrok http -host-header="localhost:58821" 58821
+
+ngrok http -host-header="localhost:50405" 50405

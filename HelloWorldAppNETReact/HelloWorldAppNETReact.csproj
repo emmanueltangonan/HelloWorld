@@ -26,6 +26,8 @@
     <None Remove="ClientApp\components\Board\test.ts" />
     <None Remove="ClientApp\components\EditableNote\index.tsx" />
     <None Remove="ClientApp\components\Header\index.tsx" />
+    <None Remove="ClientApp\components\MiniComponents\ConfirmAction.tsx" />
+    <None Remove="ClientApp\components\MiniComponents\Options.tsx" />
     <None Remove="ClientApp\components\StickyNote\index.tsx" />
     <None Remove="ClientApp\components\StickyNote\test.ts" />
     <None Remove="ClientApp\components\BulletTask\index.tsx" />
@@ -45,6 +47,8 @@
     <TypeScriptCompile Include="ClientApp\components\Board\test.ts" />
     <TypeScriptCompile Include="ClientApp\components\EditableNote\index.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Header\index.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\MiniComponents\ConfirmAction.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\MiniComponents\Options.tsx" />
     <TypeScriptCompile Include="ClientApp\components\StickyNote\index.tsx" />
     <TypeScriptCompile Include="ClientApp\components\StickyNote\test.ts" />
     <TypeScriptCompile Include="ClientApp\components\BulletTask\index.tsx" />

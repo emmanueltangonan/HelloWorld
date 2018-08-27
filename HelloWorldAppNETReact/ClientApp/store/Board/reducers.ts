@@ -7,6 +7,7 @@ const unloadedState: BoardState = {
     notes: [],
     date: new Date(),
     isEditableNoteOpen: false,
+    view: 'active'
 };
 
 export const reducer: Reducer<BoardState> = (state: BoardState, incomingAction: Action) => {
@@ -56,6 +57,11 @@ export const reducer: Reducer<BoardState> = (state: BoardState, incomingAction: 
             return {
                 ...state,
                 notes: action.payload,
+            };
+        case 'SET_VIEW':
+            return {
+                ...state,
+                view: action.payload,
             };
         case 'SET_ERROR':
             return {

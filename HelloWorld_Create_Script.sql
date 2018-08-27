@@ -70,3 +70,7 @@ GO
 ----------- Aug 25 8pm
 ALTER TABLE stickynote
 ADD isComplete int;
+
+----------- Aug 27 8:30am
+ALTER TABLE stickynote
+ADD origin nvarchar(50);

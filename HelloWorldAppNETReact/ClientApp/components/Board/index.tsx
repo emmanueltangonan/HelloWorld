@@ -7,6 +7,7 @@ import StickyNote from '../StickyNote';
 import Draggable from 'react-draggable';
 import EditableNote from '../EditableNote';
 import Header from '../Header';
+import { BoardView } from '../../constants/constants';
 
 type BoardProps =
     BoardState.BoardState       
@@ -18,21 +19,21 @@ class Board extends React.Component<BoardProps, any> {
     constructor(props: any) {
         super(props)
         this.state = {
-            windowHeight: null
+            windowHeight: null,
         }
-        this.handleButton = this.handleButton.bind(this)
-        this.getDisplay = this.getDisplay.bind(this)
+        this.handleButton = this.handleButton.bind(this);
+        this.getDisplay = this.getDisplay.bind(this);
+        this.handleSelectChange = this.handleSelectChange.bind(this);
     }
 
     componentDidMount() {
         this.setState({
             windowHeight: window.innerHeight
         });
-        this.props.getAllNotes();
+        this.props.getAllNotes(BoardView.ACTIVE);
     }
 
     handleButton() {
-        //this.props.createNewNote();
         const { isEditableNoteOpen } = this.props;
         this.props.toggleEditableNote(!isEditableNoteOpen);
     }
@@ -42,14 +43,23 @@ class Board extends React.Component<BoardProps, any> {
         return isEditableNoteOpen ? {} : { display: 'none'};
     }
 
+    handleSelectChange(e: any) {
+        const view = e.target.value;
+        this.props.setView(view);
+        this.props.getAllNotes(view);
+    }
+
     public render() {
-        const { notes, isEditableNoteOpen } = this.props;
+        const { notes, isEditableNoteOpen, view } = this.props;
         const { windowHeight } = this.state;
         
         return (
             <div className="board" style={{ height: windowHeight }}>
-                <Header />
-                <div className="add-btn" onClick={this.handleButton} >{isEditableNoteOpen ? 'Cancel' : 'New'}</div>
+                <Header handleSelectChange={this.handleSelectChange} />
+                { view.toLowerCase() === 'archive' ? null
+                    : <div className="add-btn" onClick={this.handleButton} >{isEditableNoteOpen ? 'Cancel' : 'New'}</div>
+                }
+
                 <EditableNote display={ this.getDisplay() } />
                 <div className="notes-container">
                     {notes && 

@@ -44,8 +44,10 @@ class BulletTask extends React.Component<BoardProps, any> {
     //}
 
     handleTaskClick() {
-        const { task } = this.props;
-        this.props.updateTask(task);
+        const { task, view } = this.props;
+        if (view.toLowerCase() !== 'archive') {
+            this.props.updateTask(task);
+        }
     }
 
     renderUnHoveredFa(task: any) {
@@ -66,7 +68,7 @@ class BulletTask extends React.Component<BoardProps, any> {
 
     public render() {
         const { isHovered } = this.state;
-        const { task } = this.props;
+        const { task, view } = this.props;
         const styles = {
             noteTaskActive: {
                 ':hover': {
@@ -78,27 +80,34 @@ class BulletTask extends React.Component<BoardProps, any> {
                 ':hover': {
                     //textDecoration: 'none',
                 },
+            },
+            noteArchived: {
+                textDecoration: 'line-through',
+                cursor: 'grab'
             }
         }
         
         return (
             !task ? null : 
             <div
-                key={task.id}
+                key={task.id} 
                 className="saved-task sticky-note-task col-sm-12"
-                //onMouseEnter={this.handleHover}
-                //onMouseLeave={this.handleHover}
                 title={task.isDone ? 'Mark as Not Done' : 'Mark as Done'}
             >
-                <div className="col-sm-2 sticky-note-task-fa" onClick={this.handleTaskClick}>
-                        {/*isHovered ? this.renderHoveredFa(task) : this.renderUnHoveredFa(task)*/}
+                <div 
+                    className="col-sm-2 sticky-note-task-fa" 
+                    onClick={this.handleTaskClick}
+                    style={{cursor: view.toLowerCase() == 'archive' ? 'grab' : 'pointer'}}
+                >
                         {this.renderUnHoveredFa(task)}
                 </div>
-                <div className="col-sm-10 no-padding">
+                <div 
+                    className="col-sm-10 no-padding"
+                >
                     <span
                         className="task-desc"
                         onClick={this.handleTaskClick}
-                        style={task.isDone ? styles.noteTaskDone : styles.noteTaskActive}
+                            style={view.toLowerCase() == 'archive' ? styles.noteArchived : task.isDone ? styles.noteTaskDone : styles.noteTaskActive}
                     >
                         {task.description}
                     </span>

@@ -26,7 +26,7 @@ namespace HelloWorldAppNETReact
         {
             services.AddMvc();
 
-            var connection = @"Server=EMAN-PC\SQLEXPRESS;Database=HelloWorld;uid=sa;password=root;ConnectRetryCount=0";
+            var connection = @"Server=localhost;Database=HelloWorld;Trusted_Connection=True";
             services.AddDbContext<HelloWorldContext>(options => options.UseSqlServer(connection));
         }
 

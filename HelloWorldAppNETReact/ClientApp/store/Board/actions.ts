@@ -33,21 +33,27 @@ interface DeleteNoteAction {
     payload: any;
 }
 
+interface SetViewAction {
+    type: 'SET_VIEW';
+    payload: any;
+}
+
 interface SetErrorAction {
     type: 'SET_ERROR';
     payload: any;
 }
 
 export type KnownAction = GetAllNotesAction | GetTasksAction | SetErrorAction | SaveNewNoteAction | SetIsEditableNoteOpenAction
-    | UpdateTaskAction | DeleteNoteAction;
+    | UpdateTaskAction | DeleteNoteAction | SetViewAction;
 
 // ACTION CREATORS
 export const actionCreators = {
-    getAllNotes: (date: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    getAllNotes: (view: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
 
-        axios.get('/api/HelloWorld/GetNotes')
+        axios.get('/api/HelloWorld/GetNotes?view=' + view)
             .then(res => {
                 if (res && res.status === 200) {
+                    console.log(res.data);
                     dispatch({ type: 'GET_ALL_NOTES', payload: res.data });
                 } else {
                     console.log('ERROR:: ', res.statusText);
@@ -172,5 +178,8 @@ export const actionCreators = {
             .catch(error => {
                 console.log(error)
             });
+    },
+    setView: (view: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'SET_VIEW', payload: view });
     },
 };
