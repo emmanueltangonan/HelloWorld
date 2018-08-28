@@ -38,13 +38,18 @@ interface SetViewAction {
     payload: any;
 }
 
+interface SetAsArchived {
+    type: 'SET_ARCHIVED';
+    payload: any;
+}
+
 interface SetErrorAction {
     type: 'SET_ERROR';
     payload: any;
 }
 
 export type KnownAction = GetAllNotesAction | GetTasksAction | SetErrorAction | SaveNewNoteAction | SetIsEditableNoteOpenAction
-    | UpdateTaskAction | DeleteNoteAction | SetViewAction;
+    | UpdateTaskAction | DeleteNoteAction | SetViewAction | SetAsArchived;
 
 // ACTION CREATORS
 export const actionCreators = {
@@ -112,6 +117,7 @@ export const actionCreators = {
                     throw Error;
                 }
                 newNote.id = res.data;
+                newNote.origin = 'Web app';
                 const newNoteDisplay = { ...newNote, tasks: newNote.task }
                 dispatch({ type: 'SAVE_NEW_NOTE', payload: newNoteDisplay });
                 //close the editable note and toggle button
@@ -181,5 +187,24 @@ export const actionCreators = {
     },
     setView: (view: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
         dispatch({ type: 'SET_VIEW', payload: view });
+    },
+    setAsArchived: (note: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+
+        axios.post('/api/HelloWorld/SetAsArchived', note)
+            .then(res => {
+                if (res && res.status !== 200) {
+                    throw Error;
+                }
+                let newNotes = getState().board.notes.filter(n => {
+                    if (note.id != n.id) {
+                        return n;
+                    }
+                });
+
+                dispatch({ type: 'SET_ARCHIVED', payload: newNotes });
+            })
+            .catch(error => {
+                console.log(error)
+            });
     },
 };

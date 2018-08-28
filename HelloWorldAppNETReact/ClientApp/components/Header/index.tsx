@@ -25,7 +25,7 @@ class Header extends React.Component<BoardProps, any> {
                     <div className="form-group">
                         <select className="form-control" onChange={handleSelectChange}>
                             <option value="ACTIVE">ACTIVE</option>
-                            <option value="ARCHIVE">ARCHIVE</option>
+                            <option value="ARCHIVE">ARCHIVED</option>
                         </select>
                     </div>
                 </div>

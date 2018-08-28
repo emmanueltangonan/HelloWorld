@@ -193,5 +193,26 @@ namespace HelloWorldAppNETReact.Controllers
             return Ok("success");
         }
 
+        [HttpPost("[action]")]
+        public IActionResult SetAsArchived([FromBody] StickyNote note)
+        {
+            try
+            {
+                note = _context.StickyNote.Where(n => n.Id == note.Id).Single();
+                if (note != null && (note.IsComplete == 0 || note.IsComplete == null))
+                {
+                    note.IsComplete = 1;
+                }
+               
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+
+            return Ok(note);
+        }
+
     }
 }

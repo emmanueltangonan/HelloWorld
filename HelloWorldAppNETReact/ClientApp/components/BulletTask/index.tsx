@@ -102,7 +102,7 @@ class BulletTask extends React.Component<BoardProps, any> {
                         {this.renderUnHoveredFa(task)}
                 </div>
                 <div 
-                    className="col-sm-10 no-padding"
+                    className="col-sm-10 no-padding task-desc-div"
                 >
                     <span
                         className="task-desc"

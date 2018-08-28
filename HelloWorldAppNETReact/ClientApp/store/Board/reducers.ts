@@ -63,6 +63,11 @@ export const reducer: Reducer<BoardState> = (state: BoardState, incomingAction: 
                 ...state,
                 view: action.payload,
             };
+        case 'SET_ARCHIVED':
+            return {
+                ...state,
+                notes: action.payload,
+            };
         case 'SET_ERROR':
             return {
                 ...state,

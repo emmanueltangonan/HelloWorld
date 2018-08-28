@@ -175,7 +175,8 @@ class StickyNote extends React.Component<BoardProps, any> {
         });
     }
     handleArchiveConfirmed() {
-        
+        const { note } = this.props;
+        this.props.setAsArchived(note);
     }
 
     setArchiveConfirmVisible() {

@@ -33,6 +33,12 @@ div.sticky-note-task-fa:hover,
 span.task-desc:hover {
     cursor: pointer;
 }
+div.task-desc-div {
+    transition: all ease-in-out .2s;
+}
+div.task-desc-div:active {
+    transform: scale(1.1);
+}
 
 span.dot {
     height: 12px;
